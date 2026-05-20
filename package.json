@@ -1,0 +1,31 @@
+{
+  "name": "namste-react",
+  "version": "1.0.n0",
+  "description": "Learning React from Namaste React.",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anuja-Suryawanshi07/namaste-react.git"
+  },
+  "author": "Anuja Suryawanshi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Anuja-Suryawanshi07/namaste-react/issues"
+  },
+  "homepage": "https://github.com/Anuja-Suryawanshi07/namaste-react#readme",
+  "devDependencies": {
+    "parcel": "^2.16.4"
+  },
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6"
+  },
+  "browserslist":[
+    "last 2 Chrome version",
+    "last 2 Safari version",
+    "last 2 Firefox version",
+    "last 2 Edge version"
+  ]
+}
