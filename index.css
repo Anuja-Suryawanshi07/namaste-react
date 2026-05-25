@@ -165,3 +165,14 @@
     cursor: pointer;
     padding: 5px;
 }
+.filter-btn{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 8px;
+    margin-left: 8px;
+    margin-bottom: 10px;
+}
+.filter-btn:hover{
+    cursor: pointer;
+    box-shadow: 5px 5px 10px grey ;
+}
