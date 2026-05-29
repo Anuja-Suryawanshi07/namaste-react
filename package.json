@@ -22,9 +22,10 @@
   },
   "dependencies": {
     "react": "^19.2.6",
-    "react-dom": "^19.2.6"
+    "react-dom": "^19.2.6",
+    "react-router-dom": "^6.30.3"
   },
-  "browserslist":[
+  "browserslist": [
     "last 2 Chrome version",
     "last 2 Safari version",
     "last 2 Firefox version",
