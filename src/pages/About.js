@@ -19,6 +19,7 @@ class About extends React.Component {
         <h1>About Page</h1>
         <h2>This is About page</h2>
         <UserClass name={"Anuja Surya(Class)"} location={"Navi Mumbai"} />
+        <UserClass name={"Akshay Saini(Class)"} location={"Dehradun"} />
       </div>
     );
   }
