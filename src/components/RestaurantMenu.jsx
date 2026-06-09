@@ -7,7 +7,6 @@ const RestaurantMenu = () => {
   const resInfo = useRestaurantMenu(resId);
   //const [error, setError] = useState("");
 
-
   if (resInfo === null) {
     return <Shimmer />;
   }
@@ -21,38 +20,65 @@ const RestaurantMenu = () => {
   const itemCards =
     resInfo?.cards
       ?.find((card) => card?.groupedCard?.cardGroupMap?.REGULAR)
-      ?.groupedCard?.cardGroupMap?.REGULAR?.cards
-      ?.find(
+      ?.groupedCard?.cardGroupMap?.REGULAR?.cards?.find(
         (card) =>
           card?.card?.card?.["@type"] ===
-          "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory"
-      )
-      ?.card?.card?.itemCards || [];
+          "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory",
+      )?.card?.card?.itemCards || [];
 
   return (
-    <div className="menu">
-      <h1>{name}</h1>
+    <div className="max-w-4xl mx-auto px-4 py-6">
+      {/* Restaurant Info */}
+      <div className="bg-white shadow-lg rounded-2xl p-6 mb-6">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900">
+          {name}
+        </h1>
 
-      <p>
-        {cuisines?.join(", ")} - {costForTwoMessage}
-      </p>
+        <p className="text-gray-600 mt-2">{cuisines?.join(", ")}</p>
 
-      <h2>Menu</h2>
+        <p className="mt-2 font-semibold text-green-700">{costForTwoMessage}</p>
+      </div>
 
-      <ul>
-        {itemCards.map((item) => (
-          <li key={item?.card?.info?.id}>
-            {item?.card?.info?.name} - ₹
-            {(
-              (item?.card?.info?.price ||
-                item?.card?.info?.defaultPrice ||
-                0) / 100
-            ).toFixed(0)}
-          </li>
-        ))}
-      </ul>
+      {/* Menu Heading */}
+      <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
+        🍽️ Menu
+      </h2>
+
+      {/* Menu Items */}
+      <div className="space-y-4">
+        {itemCards.map((item) => {
+          const info = item?.card?.info;
+
+          return (
+            <div
+              key={info?.id}
+              className="bg-white rounded-xl shadow-md hover:shadow-lg transition duration-300 p-4"
+            >
+              <div className="flex justify-between items-start gap-4">
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-gray-900">
+                    {info?.name}
+                  </h3>
+
+                  <p className="text-green-700 font-semibold mt-1">
+                    ₹
+                    {((info?.price || info?.defaultPrice || 0) / 100).toFixed(
+                      0,
+                    )}
+                  </p>
+
+                  {info?.description && (
+                    <p className="text-sm text-gray-500 mt-2">
+                      {info.description}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
-
 export default RestaurantMenu;
