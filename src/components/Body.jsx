@@ -1,4 +1,4 @@
-import RestaurantCard from "./RestaurantCard";
+import RestaurantCard, {withPromotedLabel}from "./RestaurantCard";
 import { useState, useEffect } from "react";
 import { FOOD_API } from "../utils/contact";
 import Shimmer from "./Shimmer";
@@ -9,6 +9,10 @@ const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+  const RestaurantCardPromted = withPromotedLabel(RestaurantCard);
+
+  console.log("Body Rendered", listOfRestaurants);
 
   const onlineStatus = useOnlineStatus();
 
@@ -97,7 +101,11 @@ const Body = () => {
             to={`/restaurants/${restaurant?.info?.id}`}
             className="w-full max-w-[280px] hover:scale-105 transition-transform duration-200"
           >
-            <RestaurantCard resData={restaurant} />
+            {restaurant.info.promoted?(<RestaurantCardPromted resData={restaurant}/>
+            ): (<RestaurantCard resData={restaurant} />
+
+            )}
+            
           </Link>
         ))}
       </div>
