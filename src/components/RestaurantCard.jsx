@@ -1,3 +1,4 @@
+import { CDN_URL } from "../utils/contact";
 const RestaurantCard = ({ resData }) => {
   const {
     name,
@@ -7,8 +8,7 @@ const RestaurantCard = ({ resData }) => {
     sla,
   } = resData?.info || {};
 
-  const CDN_URL =
-    "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/";
+  
 
   return (
     <div className="w-full max-w-[280px] h-full rounded-xl overflow-hidden bg-white shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer">

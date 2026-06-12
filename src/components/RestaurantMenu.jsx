@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import Shimmer from "./Shimmer";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
+import RestauratCategory from "./RestaurantCategory";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
@@ -25,7 +26,18 @@ const RestaurantMenu = () => {
           card?.card?.card?.["@type"] ===
           "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory",
       )?.card?.card?.itemCards || [];
+  // console.log(resInfo?.cards
+  // ?.find((card) => card?.groupedCard?.cardGroupMap?.REGULAR)
+  // ?.groupedCard?.cardGroupMap?.REGULAR?.cards)
+  const categories = resInfo?.cards
+    ?.find((card) => card?.groupedCard?.cardGroupMap?.REGULAR)
+    ?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (c) =>
+        c.card?.card?.["@type"] ===
+        "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory",
+    );
 
+  //console.log(categories);
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
       {/* Restaurant Info */}
@@ -39,13 +51,16 @@ const RestaurantMenu = () => {
         <p className="mt-2 font-semibold text-green-700">{costForTwoMessage}</p>
       </div>
 
-      {/* Menu Heading */}
       <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
         🍽️ Menu
       </h2>
+       {/* Categories & Items accordions */}
+       <div className="text-center">
+       {categories.map((category) => <RestauratCategory key={category.id} data={category?.card?.card} />)}
+      </div>
 
       {/* Menu Items */}
-      <div className="space-y-4">
+       {/*<div className="space-y-4">
         {itemCards.map((item) => {
           const info = item?.card?.info;
 
@@ -77,7 +92,7 @@ const RestaurantMenu = () => {
             </div>
           );
         })}
-      </div>
+      </div> */}
     </div>
   );
 };
