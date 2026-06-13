@@ -2,11 +2,13 @@ import { useParams } from "react-router-dom";
 import Shimmer from "./Shimmer";
 import useRestaurantMenu from "../utils/useRestaurantMenu";
 import RestauratCategory from "./RestaurantCategory";
+import { useState } from "react";
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
   const resInfo = useRestaurantMenu(resId);
   //const [error, setError] = useState("");
+  const [showIndex, setShowIndex] = useState(null);
 
   if (resInfo === null) {
     return <Shimmer />;
@@ -26,9 +28,9 @@ const RestaurantMenu = () => {
           card?.card?.card?.["@type"] ===
           "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory",
       )?.card?.card?.itemCards || [];
-  // console.log(resInfo?.cards
-  // ?.find((card) => card?.groupedCard?.cardGroupMap?.REGULAR)
-  // ?.groupedCard?.cardGroupMap?.REGULAR?.cards)
+   console.log(resInfo?.cards
+   ?.find((card) => card?.groupedCard?.cardGroupMap?.REGULAR)
+   ?.groupedCard?.cardGroupMap?.REGULAR?.cards)
   const categories = resInfo?.cards
     ?.find((card) => card?.groupedCard?.cardGroupMap?.REGULAR)
     ?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
@@ -37,7 +39,7 @@ const RestaurantMenu = () => {
         "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory",
     );
 
-  //console.log(categories);
+  console.log("CATEGORIES", categories);
   return (
     <div className="max-w-4xl mx-auto px-4 py-6">
       {/* Restaurant Info */}
@@ -56,7 +58,19 @@ const RestaurantMenu = () => {
       </h2>
        {/* Categories & Items accordions */}
        <div className="text-center">
-       {categories.map((category) => <RestauratCategory key={category.id} data={category?.card?.card} />)}
+       {categories.map((category, index) =>{
+        // Restaurant category is a controlled component by its Parent component Restaurant Menu. 
+       //console.log("CATEGORY", category);
+
+       return (
+    <RestauratCategory
+      key={category?.card?.card?.categoryId}
+      data={category?.card?.card}
+      showItems={index === showIndex}
+      setShowIndex={() => setShowIndex(showIndex === index ? null : index)}
+    />
+  );
+})}
       </div>
 
       {/* Menu Items */}

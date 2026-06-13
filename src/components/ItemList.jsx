@@ -1,6 +1,7 @@
 import { CDN_URL } from "../utils/contact";
 const ItemList = ({ items }) => {
-  console.log(items);
+  //console.log(items);
+  //console.log("FIRST ITEM", items?.[0]);
   return (
     <div>
       {items.map((item) => (
