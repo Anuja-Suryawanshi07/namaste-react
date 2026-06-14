@@ -1,4 +1,4 @@
-import React,{ lazy, Suspense } from "react";
+import React,{ lazy, Suspense, useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import Header from "./components/Header";
@@ -11,17 +11,36 @@ import Error from "./pages/Error";
 import RestaurantMenu from "./components/RestaurantMenu";
 import Shimmer from "./components/Shimmer";
 //import Grocery from "./components/Grocery";
+import UserContext from "./utils/UserContext";
 
 /* Code Splitting/ Lazy loading of Grocery component. */
 const Grocery = lazy(() => import("./components/Grocery"));
 
 const AppLayout = () => {
+
+  const [userName, setUserName] = useState();
+  //Authentication Logic
+
+  useEffect(() => {
+    //Make an API call & send UserName & Password.
+    const data = {
+      name: "Anuja Surya"
+    };
+    setUserName(data.name);
+  },[]);
+
+  // To pass the information throughout App we use context Provider.
   return (
-    <div className="app">
-      <Header />
-      <Outlet />
-      <Footer />
-    </div>
+    // Nested UserContext Provider
+    <UserContext.Provider value = {{loggedInUser : userName, setUserName }}>
+      <div className="app">
+        <UserContext.Provider value = {{loggedInUser : "Aarush"}}>
+        <Header />
+        </UserContext.Provider>
+        <Outlet />
+        <Footer />
+      </div>
+    </UserContext.Provider>
   );
 };
 

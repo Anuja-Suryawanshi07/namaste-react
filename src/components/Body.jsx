@@ -1,9 +1,10 @@
-import RestaurantCard, {withPromotedLabel}from "./RestaurantCard";
-import { useState, useEffect } from "react";
+import RestaurantCard, { withPromotedLabel } from "./RestaurantCard";
+import { useState, useEffect, useContext } from "react";
 import { FOOD_API } from "../utils/contact";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import useOnlineStatus from "../utils/useOnlineStatus";
+import UserContext from "../utils/UserContext";
 
 const Body = () => {
   const [listOfRestaurants, setListOfRestaurants] = useState([]);
@@ -15,6 +16,7 @@ const Body = () => {
   console.log("Body Rendered", listOfRestaurants);
 
   const onlineStatus = useOnlineStatus();
+  const {loggedInUser,setUserName} = useContext(UserContext);
 
   useEffect(() => {
     fetchData();
@@ -27,8 +29,7 @@ const Body = () => {
 
       const restaurants =
         json?.data?.cards?.find(
-          (card) =>
-            card?.card?.card?.gridElements?.infoWithStyle?.restaurants
+          (card) => card?.card?.card?.gridElements?.infoWithStyle?.restaurants,
         )?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
 
       setListOfRestaurants(restaurants);
@@ -69,7 +70,7 @@ const Body = () => {
               const filtered = listOfRestaurants.filter((res) =>
                 res?.info?.name
                   ?.toLowerCase()
-                  .includes(searchText.toLowerCase())
+                  .includes(searchText.toLowerCase()),
               );
 
               setFilteredRestaurants(filtered);
@@ -83,7 +84,7 @@ const Body = () => {
           className="w-full sm:w-auto bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
           onClick={() => {
             const filtered = listOfRestaurants.filter(
-              (res) => res?.info?.avgRating > 4
+              (res) => res?.info?.avgRating > 4,
             );
 
             setFilteredRestaurants(filtered);
@@ -91,6 +92,14 @@ const Body = () => {
         >
           Top Rated Restaurants
         </button>
+        {/* changing the UserContext by using search box. */}
+        <div className="search m-4 p-4 flex items-center">
+          <label className="px-2">UserName : </label>
+          <input className="border border-black p-2" 
+          value={loggedInUser}
+          onChange={(e) => setUserName(e.target.value)}/>
+          
+        </div>
       </div>
 
       {/* Restaurant Grid */}
@@ -101,11 +110,11 @@ const Body = () => {
             to={`/restaurants/${restaurant?.info?.id}`}
             className="w-full max-w-[280px] hover:scale-105 transition-transform duration-200"
           >
-            {restaurant.info.promoted?(<RestaurantCardPromted resData={restaurant}/>
-            ): (<RestaurantCard resData={restaurant} />
-
+            {restaurant.info.promoted ? (
+              <RestaurantCardPromted resData={restaurant} />
+            ) : (
+              <RestaurantCard resData={restaurant} />
             )}
-            
           </Link>
         ))}
       </div>
