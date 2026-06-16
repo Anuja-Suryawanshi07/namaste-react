@@ -12,7 +12,9 @@ import RestaurantMenu from "./components/RestaurantMenu";
 import Shimmer from "./components/Shimmer";
 //import Grocery from "./components/Grocery";
 import UserContext from "./utils/UserContext";
-
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore";
+import Cart from "./components/Cart";
 /* Code Splitting/ Lazy loading of Grocery component. */
 const Grocery = lazy(() => import("./components/Grocery"));
 
@@ -32,6 +34,8 @@ const AppLayout = () => {
   // To pass the information throughout App we use context Provider.
   return (
     // Nested UserContext Provider
+    
+    <Provider store={appStore}>
     <UserContext.Provider value = {{loggedInUser : userName, setUserName }}>
       <div className="app">
         <UserContext.Provider value = {{loggedInUser : "Aarush"}}>
@@ -41,6 +45,7 @@ const AppLayout = () => {
         <Footer />
       </div>
     </UserContext.Provider>
+    </Provider>
   );
 };
 
@@ -71,6 +76,11 @@ const appRouter = createBrowserRouter([
         path: "/restaurants/:resId",
         element: <RestaurantMenu />,
       },
+
+      {
+        path: "/cart",
+        element: <Cart/>
+      }
     ],
     errorElement: <Error />,
   },
